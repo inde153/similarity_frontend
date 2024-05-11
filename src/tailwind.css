@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input {
+  @apply focus:outline-none focus:border-gray-500 p-2 border text-lg font-light border-gray-200  transition-colors;
+}
+.btn {
+  @apply w-11/12 border mb-5 outline-gray-700 rounded-2xl text-sm font-bold transition-colors;
+}
+.loginBtn {
+  @apply py-2 px-24 flex items-center justify-center;
+}
+.p {
+  @apply w-screen;
+}

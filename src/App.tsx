@@ -1,5 +1,35 @@
 import React from 'react';
+import './tailwind.css';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import { Header } from './components/Header';
+import { NotFound } from './pages/NotFound';
+import { Login } from './pages/Login';
 
-export default function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+const Layout = () => (
+  <>
+    <Header />
+    <Outlet />
+  </>
+);
+
+const routers = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <Login />,
+      },
+      {
+        path: '*',
+        element: <NotFound />,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={routers} />;
 }
+
+export default App;
