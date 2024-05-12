@@ -6,13 +6,8 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { requestURL } from '../api/requests';
 
-interface ILoginForm {
-  email: string;
-  password: string;
-}
-
 export const Login = () => {
-  const CLIENT_ID = process.env.REACT_APP_SERVER_URI;
+  const CLIENT_ID = process.env.REACT_APP_SERVER_URI!;
 
   const loginByGoogle = () => {
     window.open(`${CLIENT_ID}/${requestURL.googleLogin}`, '_self');
@@ -28,7 +23,7 @@ export const Login = () => {
         </button>
         <button className="btn loginBtn">
           <FontAwesomeIcon icon={faUser} className="text-lg" />
-          <p className="p">게스트로 계속하기</p>
+          <p className="p">게스트 상태로 계속하기</p>
         </button>
       </div>
     </div>

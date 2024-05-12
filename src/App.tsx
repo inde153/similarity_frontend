@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './tailwind.css';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { Header } from './components/Header';
 import { NotFound } from './pages/NotFound';
-import { Login } from './pages/Login';
 import { useEffect } from 'react';
-import { client } from './api';
+import client from './api';
+import { Profile } from './pages/Profile';
+import { LogOutRouter } from './routers/LogOutRouter';
+import { LogInRouter } from './routers/LogInRouter';
+import { requestURL } from './api/requests';
 
 const Layout = () => (
   <>
@@ -14,26 +17,42 @@ const Layout = () => (
   </>
 );
 
-const routers = createBrowserRouter([
-  {
-    element: <Layout />,
-    children: [
-      {
-        path: '/',
-        element: <Login />,
-      },
-      {
-        path: '*',
-        element: <NotFound />,
-      },
-    ],
-  },
-]);
-
 function App() {
+  const [loginStatus, setLoginStatus] = useState(Boolean(localStorage.getItem('u_info')));
+
   useEffect(() => {
-    const res = client.get('auth/refresh');
+    if (!loginStatus) {
+      client
+        .get(requestURL.refresh)
+        .then((res) => {
+          if (res.data) {
+            localStorage.setItem('u_info', JSON.stringify(res.data));
+            setLoginStatus(true);
+          }
+        })
+        .catch((e) => console.log(e));
+    }
   }, []);
+
+  const routers = createBrowserRouter([
+    {
+      element: <Layout />,
+      children: [
+        {
+          path: '/',
+          element: loginStatus ? <LogInRouter /> : <LogOutRouter />,
+        },
+        {
+          path: '*',
+          element: <Profile />,
+        },
+        {
+          path: '*',
+          element: <NotFound />,
+        },
+      ],
+    },
+  ]);
 
   return <RouterProvider router={routers} />;
 }

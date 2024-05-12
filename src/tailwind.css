@@ -14,3 +14,11 @@
 .p {
   @apply w-screen;
 }
+
+.th {
+  @apply px-12;
+}
+
+.td {
+  @apply py-3 text-sm;
+}
