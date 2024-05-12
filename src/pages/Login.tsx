@@ -6,11 +6,20 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { requestURL } from '../api/requests';
 
-export const Login = () => {
+interface ILoginStatus {
+  handleLoginStatus: (type: boolean) => void;
+}
+
+export const Login: React.FC<ILoginStatus> = ({ handleLoginStatus }) => {
   const CLIENT_ID = process.env.REACT_APP_SERVER_URI!;
 
   const loginByGoogle = () => {
     window.open(`${CLIENT_ID}/${requestURL.googleLogin}`, '_self');
+  };
+
+  const loginByGuest = () => {
+    localStorage.setItem('u_info', JSON.stringify({ loginType: 'Guest', username: 'anonymous' }));
+    handleLoginStatus(true);
   };
 
   return (
@@ -21,7 +30,7 @@ export const Login = () => {
           <FontAwesomeIcon icon={faGoogle} className="text-lg" />
           <p className="p">구글 계정으로 계속하기</p>
         </button>
-        <button className="btn loginBtn">
+        <button className="btn loginBtn" onClick={() => loginByGuest()}>
           <FontAwesomeIcon icon={faUser} className="text-lg" />
           <p className="p">게스트 상태로 계속하기</p>
         </button>

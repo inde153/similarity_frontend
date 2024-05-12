@@ -1,6 +1,10 @@
 import React from 'react';
 import { Login } from '../pages/Login';
 
-export const LogOutRouter = () => {
-  return <Login />;
+interface ILoginStatus {
+  handleLoginStatus: (type: boolean) => void;
+}
+
+export const LogOutRouter: React.FC<ILoginStatus> = ({ handleLoginStatus }) => {
+  return <Login handleLoginStatus={handleLoginStatus} />;
 };

@@ -8,7 +8,9 @@ export const Header: React.FC = () => {
   return (
     <header className="py-4">
       <div className="w-full px-5 xl:px-0 max-w-screen-lg mx-auto flex justify-between items-center">
-        <img src={logo} className="w-40" />
+        <Link to="/">
+          <img src={logo} className="w-40" />
+        </Link>
         <span className="text-xs">
           <Link to="/profile/">
             <FontAwesomeIcon icon={faUser} className="text-2xl w-20" />

@@ -20,6 +20,10 @@ const Layout = () => (
 function App() {
   const [loginStatus, setLoginStatus] = useState(Boolean(localStorage.getItem('u_info')));
 
+  const handleLoginStatus = (type: boolean): void => {
+    setLoginStatus(type);
+  };
+
   useEffect(() => {
     if (!loginStatus) {
       client
@@ -30,7 +34,12 @@ function App() {
             setLoginStatus(true);
           }
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+          if (loginStatus) {
+            localStorage.removeItem('u_info');
+            setLoginStatus(false);
+          }
+        });
     }
   }, []);
 
@@ -40,10 +49,10 @@ function App() {
       children: [
         {
           path: '/',
-          element: loginStatus ? <LogInRouter /> : <LogOutRouter />,
+          element: loginStatus ? <LogInRouter /> : <LogOutRouter handleLoginStatus={handleLoginStatus} />,
         },
         {
-          path: '*',
+          path: '/profile',
           element: <Profile />,
         },
         {
