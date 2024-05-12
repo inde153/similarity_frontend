@@ -9,7 +9,7 @@ import { Profile } from './pages/Profile';
 import { LogOutRouter } from './routers/LogOutRouter';
 import { LogInRouter } from './routers/LogInRouter';
 import { requestURL } from './api/requests';
-
+import { PrivateRoute } from './components/PrivateRoute';
 const Layout = () => (
   <>
     <Header />
@@ -49,11 +49,12 @@ function App() {
       children: [
         {
           path: '/',
+          index: true,
           element: loginStatus ? <LogInRouter /> : <LogOutRouter handleLoginStatus={handleLoginStatus} />,
         },
         {
           path: '/profile',
-          element: <Profile />,
+          element: <PrivateRoute Component={Profile} loginStatus={loginStatus} />,
         },
         {
           path: '*',
@@ -63,7 +64,11 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={routers} />;
+  return (
+    <>
+      <RouterProvider router={routers} />
+    </>
+  );
 }
 
 export default App;
