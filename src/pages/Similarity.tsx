@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import client from '../api';
 import { requestURL } from '../api/requests';
+import { ChatWidget } from '../components/ChatWidget';
 
 interface IGuesses {
   order: number;
@@ -46,6 +47,7 @@ export const Similarity = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} className="text-lg" />
         </button>
       </div>
+      <span className="text-base text-red-400 my-5">이번 문제는 만화 캐릭터 맞추기 문제입니다.</span>
       <div className="max-w-screen-sm">
         <table className="w-full text-center">
           <thead>
@@ -78,6 +80,7 @@ export const Similarity = () => {
               })}
           </tbody>
         </table>
+        <ChatWidget />
       </div>
     </div>
   );

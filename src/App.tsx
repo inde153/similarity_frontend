@@ -10,12 +10,10 @@ import { LogOutRouter } from './routers/LogOutRouter';
 import { LogInRouter } from './routers/LogInRouter';
 import { requestURL } from './api/requests';
 import { PrivateRoute } from './components/PrivateRoute';
-import { Footer } from './components/Footer';
 const Layout = () => (
   <>
     <Header />
     <Outlet />
-    <Footer />
   </>
 );
 
