@@ -2,33 +2,23 @@ import axios, { Axios, AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRespo
 import { response } from 'express';
 import { async } from 'q';
 
-interface IAPIResponse<T = any> {
-  errorCode: number;
-  message: string;
-  success: boolean;
-  data: T;
-}
-
-interface CustomInstance extends AxiosInstance {
-  get<T = unknown, R = AxiosResponse<IAPIResponse<T>>, D = unknown>(url: string, config?: AxiosRequestConfig<D>): Promise<R>;
-}
-
-const client: CustomInstance = axios.create({
+const client = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_URI}/`,
   headers: {},
   withCredentials: true,
 });
 
 client.interceptors.response.use(
-  (res) => {
+  (res: AxiosResponse) => {
     return res.data;
   },
-  async (err) => {
+  async (err: AxiosError) => {
     if (axios.isAxiosError(err)) {
       const status = err.response?.status;
 
-      if (status === 401) {
+      if (status === 403) {
         const res = await client.get('auth/refresh');
+        console.log(res);
       }
     }
     return Promise.reject(err);

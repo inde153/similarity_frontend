@@ -17,7 +17,7 @@ export const Similarity = () => {
 
   const onSubmit = () => {
     client
-      .post(requestURL.guess, { name: word, categoryId: 1 })
+      .post<IGuesses>(requestURL.guess, { name: word, categoryId: 1 })
       .then((res) => {
         const isValid = guesses.some((ele: IGuesses) => {
           return ele.word === word;
