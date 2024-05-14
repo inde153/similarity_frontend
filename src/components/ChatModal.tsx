@@ -107,6 +107,12 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
     };
   }, [connection]);
 
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onSubmit();
+    }
+  };
+
   const onSubmit = () => {
     if (!messageInput.trim() || !socket.connected) return;
     const data: inputObject = {
@@ -138,6 +144,7 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
             value={messageInput}
             className="outline-none pl-1 w-full text-sm text-gray-800"
             onChange={(e) => setMessageInput(e.target.value)}
+            onKeyDown={handleEnterPress}
           />
         </span>
         <FontAwesomeIcon icon={faPaperPlane} className="px-3 py-1.5 text-gray-400 bg-gray-100 cursor-pointer" onClick={onSubmit} />
