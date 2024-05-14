@@ -3,17 +3,20 @@ import client from '../api';
 import { requestURL } from '../api/requests';
 
 interface IUser {
-  id: string | null;
-  username: string | null;
-  email: string | null;
-  loginType: string | null;
-  score: number | null;
-  createdAt: Date | null;
-  updatedAt: Date | null;
+  id?: number;
+  username: string;
+  email?: string;
+  loginType: string;
+  score?: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export const Profile = () => {
-  const [profile, setProfile] = useState<IUser | null>(null);
+  const [profile, setProfile] = useState<IUser>({
+    username: '',
+    loginType: '',
+  });
 
   const onSubmit = () => {
     try {
@@ -40,6 +43,17 @@ export const Profile = () => {
     }
   }, []);
 
+  const editUserProfile = (): void => {
+    client
+      .post(requestURL.editProfile, profile)
+      .then((res) => {
+        const item = JSON.parse(localStorage.getItem('u_info')!);
+        const userInfo = JSON.stringify({ ...item, username: profile.username });
+        localStorage.setItem('u_info', userInfo);
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
       <div className="mb-10 w-full max-w-screen-sm flex flex-col p-1 items-center">
@@ -57,9 +71,15 @@ export const Profile = () => {
             type={'text'}
             value={profile?.username ? profile.username : ''}
             className="profileInput hover:cursor-pointer hover:bg-gray-100"
-            onChange={(e) => console.log(e)}
+            onChange={(e) => setProfile({ ...profile, username: e.target.value })}
           />
         </div>
+        <button
+          className="w-10/12 border outline-gray-700 rounded-2xl p-5 text-red-500 font-bold font-sans hover:bg-gray-100 transition-transform"
+          onClick={editUserProfile}
+        >
+          수정하기
+        </button>
         <button
           className="w-10/12 border mb-5 outline-gray-700 rounded-2xl p-5 mt-40 text-red-500 font-bold font-sans hover:bg-gray-100 transition-transform"
           onClick={onSubmit}

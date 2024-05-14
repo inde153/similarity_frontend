@@ -4,4 +4,5 @@ export const requestURL = {
   logout: 'auth/logout',
   guess: 'guees',
   profile: 'user/profile',
+  editProfile: 'user/profile',
 };

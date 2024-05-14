@@ -3,32 +3,32 @@
 @tailwind utilities;
 
 .input {
-  @apply focus:outline-none focus:border-gray-500 p-2 border text-lg font-light border-gray-200  transition-colors;
+  @apply font-sans focus:outline-none focus:border-gray-500 p-2 border text-lg font-light border-gray-200  transition-colors;
 }
 .btn {
-  @apply w-11/12 border mb-5 outline-gray-700 rounded-2xl text-sm font-bold transition-colors;
+  @apply font-sans w-11/12 border mb-5 outline-gray-700 rounded-2xl text-sm font-bold transition-colors;
 }
 .loginBtn {
-  @apply py-2 px-24 flex items-center justify-center;
+  @apply font-sans py-2 px-24 flex items-center justify-center;
 }
 .p {
-  @apply w-screen;
+  @apply font-sans w-screen;
 }
 
 .th {
-  @apply px-12;
+  @apply font-sans px-12;
 }
 
 .td {
-  @apply py-3 text-sm;
+  @apply font-sans py-3 text-sm;
 }
 
 .profileInput {
-  @apply w-full ml-5 text-center text-sm font-mono outline-none py-7 px-1 rounded-lg;
+  @apply w-full ml-5 text-center text-sm font-sans outline-none py-7 px-1 rounded-lg;
 }
 
 .profileDiv {
-  @apply w-10/12 border mb-5 outline-gray-700 rounded-2xl flex;
+  @apply w-10/12 border mb-5 outline-gray-700 rounded-2xl font-sans flex;
 }
 
 .profileSpan {
