@@ -6,7 +6,6 @@ interface IAnotherProps {
 }
 
 export const ChatMessage: React.FC<IAnotherProps> = ({ chatMessages }) => {
-  console.log(chatMessages);
   return (
     <>
       <ul className="flex-1 overflow-x-hidden overflow-y-auto p-2 scroll-hidden bg-white overscroll-y-contain">
