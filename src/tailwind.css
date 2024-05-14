@@ -34,3 +34,8 @@
 .profileSpan {
   @apply w-[15em] text-center font-semibold font-sans py-7;
 }
+
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

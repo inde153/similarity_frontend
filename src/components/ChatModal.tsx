@@ -14,43 +14,90 @@ export interface IMessage {
   username: string;
   message: string;
   date?: Date;
+  email?: string;
+  isSelf: boolean;
 }
 
 type inputObject = {
   username: string;
   message: string;
+  email: string;
 };
+const socket = io(`${process.env.REACT_APP_SERVER_URI}/chat`, { forceNew: true, autoConnect: false });
 
 export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
-  const socket = io(`${process.env.REACT_APP_SERVER_URI}/chat`, { autoConnect: false });
-
-  const [messageInput, setMessageInput] = useState('');
+  const [messageInput, setMessageInput] = useState<string>('');
   const [chatMessages, setChatMessages] = useState<IMessage[]>([]);
   const item = JSON.parse(localStorage.getItem('u_info')!);
-  const username = item.username;
+  const { username, email, loginType } = item;
+  const [connection, setConnection] = useState<boolean>(socket.connected);
+
+  // io.use((socket, next) => {}) 미들웨어
+  const handleConnect = () => {
+    socket.emit('setInit', { username }, (response: any) => {});
+    socket.emit('getOldComments', {}, (data: IMessage[]) => {
+      const result = data.map((ele: IMessage) => {
+        if (loginType && loginType !== 'Guest') {
+          if (email === ele.email) {
+            ele['isSelf'] = true;
+          } else {
+            ele['isSelf'] = false;
+          }
+        } else {
+          if (ele['id'] === socket.id) {
+            ele['isSelf'] = true;
+          } else {
+            ele['isSelf'] = false;
+          }
+        }
+        return ele;
+      });
+      setChatMessages(result);
+    });
+  };
+
+  const handleDisconnect = () => {
+    console.log('Socket disconnected');
+  };
+
+  const handleGetMessage = (data: IMessage) => {
+    if (loginType && loginType !== 'Guest') {
+      if (email === data.email) {
+        data['isSelf'] = true;
+      } else {
+        data['isSelf'] = false;
+      }
+    } else {
+      console.log(data['id'], socket.id);
+      if (data['id'] === socket.id) {
+        data['isSelf'] = true;
+      } else {
+        data['isSelf'] = false;
+      }
+    }
+
+    setChatMessages((prevMessages) => [...prevMessages, data]);
+    setMessageInput('');
+  };
+  useEffect(() => {
+    setConnection(true);
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('getMessage');
+      setConnection(false);
+    };
+  }, []);
 
   useEffect(() => {
-    const handleConnect = () => {
-      console.log('Socket connected', socket.connected);
-      socket.emit('setInit', { username }, (response: any) => {});
-      socket.emit('getOldComments', {}, (data: IMessage[]) => {
-        setChatMessages(data);
-      });
-    };
+    if (connection) {
+      socket.connect();
 
-    const handleDisconnect = () => {
-      console.log('Socket disconnected');
-    };
-
-    const handleGetMessage = (data: IMessage) => {
-      setChatMessages((prevMessages) => [...prevMessages, data]);
-      setMessageInput('');
-    };
-
-    socket.connect();
-    socket.on('connect', handleConnect);
-    socket.on('disconnect', handleDisconnect);
-    socket.on('getMessage', handleGetMessage);
+      socket.on('connect', handleConnect);
+      socket.on('disconnect', handleDisconnect);
+      socket.on('getMessage', handleGetMessage);
+    }
 
     return () => {
       socket.off('connect');
@@ -58,18 +105,19 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
       socket.off('getMessage');
       socket.disconnect();
     };
-  }, []);
+  }, [connection]);
 
   const onSubmit = () => {
-    socket.connect();
-    if (!messageInput.trim()) return;
+    if (!messageInput.trim() || !socket.connected) return;
     const data: inputObject = {
       message: messageInput,
       username,
+      email,
     };
-    socket.emit('sendMessage', data);
+    socket.emit('sendMessage', data, (res: any) => {});
   };
 
+  // flex-1 overflow-x-hidden overflow-y-auto p-2 scroll-hidden bg-white dark:bg-black overscroll-y-contain relative max-h-72 lg:max-h-96
   return (
     <div
       className={`${
@@ -80,7 +128,7 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
         <img src={logo} className="w-24" />
         <span className="w-full px-5 text-right font-sans text-sm">{username}</span>
       </div>
-      <div className="border-t flex-1 p-2 scroll-hidden bg-white overscroll-y-contain ">
+      <div className="border-t flex-1 p-2 bg-white overflow-auto hide-scrollbar overscroll-contain">
         <ChatMessage chatMessages={chatMessages} />
       </div>
       <div className="flex items-center p-2 border-t mb-auto">
