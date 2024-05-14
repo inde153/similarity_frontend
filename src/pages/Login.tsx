@@ -18,7 +18,7 @@ export const Login: React.FC<ILoginStatus> = ({ handleLoginStatus }) => {
   };
 
   const loginByGuest = () => {
-    localStorage.setItem('u_info', JSON.stringify({ loginType: 'Guest', username: 'anonymous' }));
+    localStorage.setItem('u_info', JSON.stringify({ loginType: 'Guest', email: 'Guest', username: 'anonymous' }));
     handleLoginStatus(true);
   };
 
