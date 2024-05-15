@@ -29,8 +29,15 @@ export const Similarity = () => {
           setGuesses([...guesses, guessesItems]);
           localStorage.setItem('guesses', JSON.stringify([...guesses, guessesItems]));
         }
+        setWord('');
       })
       .catch((e) => console.log(e));
+  };
+
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onSubmit();
+    }
   };
 
   return (
@@ -42,6 +49,7 @@ export const Similarity = () => {
           placeholder="추측 단어 입력"
           value={word}
           onChange={(e) => setWord(e.target.value)}
+          onKeyDown={(e) => handleEnterPress(e)}
         />
         <button className="p-3 h-5/6 border flex items-center justify-center bg-gray-200" onClick={onSubmit}>
           <FontAwesomeIcon icon={faMagnifyingGlass} className="text-lg" />
