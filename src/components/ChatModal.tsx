@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { io } from 'socket.io-client';
@@ -31,6 +31,7 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
   const item = JSON.parse(localStorage.getItem('u_info')!);
   const { username, email, loginType } = item;
   const [connection, setConnection] = useState<boolean>(socket.connected);
+  const endOfMessagesRef = useRef<HTMLDivElement | null>(null);
 
   // io.use((socket, next) => {}) 미들웨어
   const handleConnect = () => {
@@ -79,6 +80,7 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
     setChatMessages((prevMessages) => [...prevMessages, data]);
     setMessageInput('');
   };
+
   useEffect(() => {
     setConnection(true);
 
@@ -107,6 +109,11 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
     };
   }, [connection]);
 
+  useEffect(() => {
+    // 조건부 체이닝 연산자를 사용하여 `scrollIntoView` 메소드가 존재하는지 확인하고 호출
+    endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages]);
+
   const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       onSubmit();
@@ -134,8 +141,12 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
         <img src={logo} className="w-24" />
         <span className="w-full px-5 text-right font-sans text-sm">{username}</span>
       </div>
+      <div className="flex justify-start">
+        <span className="px-4 text-red-300 text-sm font-sans">최대 50개의 글만 보입니다.</span>
+      </div>
       <div className="border-t flex-1 p-2 bg-white overflow-auto hide-scrollbar overscroll-contain">
         <ChatMessage chatMessages={chatMessages} />
+        <div ref={endOfMessagesRef} />
       </div>
       <div className="flex items-center p-2 border-t mb-auto">
         <span className="flex-1 py-1.5 px-2 mr-1.5 rounded border border-gray-200 dark:border-0">

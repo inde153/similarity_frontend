@@ -13,7 +13,11 @@ export const ChatMessage: React.FC<IAnotherProps> = ({ chatMessages }) => {
           return (
             <li key={i} className="my-0.5">
               <div className="text-xs cursor-default  text-gray-600 dark:text-gray-400 mt-2.5 mb-1 inline-flex items-center space-x-1.5 hover:text-gray-400">
-                {ele.isSelf ? <></> : <span>{ele.username}</span>}
+                {ele.isSelf || (i > 0 && (ele.id === chatMessages[i - 1].id || ele.email === chatMessages[i - 1].email)) ? (
+                  <></>
+                ) : (
+                  <span>{ele.username}</span>
+                )}
               </div>
               <div className={`flex items-end text-xs rounded ${ele.isSelf ? 'justify-end' : 'justify-start'}`}>
                 {ele.isSelf ? (
