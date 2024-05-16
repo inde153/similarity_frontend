@@ -16,7 +16,7 @@
 }
 
 .th {
-  @apply font-sans px-12;
+  @apply font-sans px-12 py-10;
 }
 
 .td {

@@ -4,8 +4,9 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import client from '../api';
 import { requestURL } from '../api/requests';
 import { ChatWidget } from '../components/ChatWidget';
+import { GuessesTables } from '../components/GuessesTables';
 
-interface IGuesses {
+export interface IGuesses {
   order: number;
   word: string;
   similarity: number;
@@ -43,6 +44,7 @@ export const Similarity = () => {
   return (
     <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
       <div className="mb-10 w-full max-w-screen-sm flex p-1 items-center bg-gray-100 ring-1 ring-gray-200">
+        <ChatWidget />
         <input
           className="h-5/6 w-full px-5 text-sm rounded-lg outline-none"
           type="search"
@@ -55,40 +57,8 @@ export const Similarity = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} className="text-lg" />
         </button>
       </div>
-      <span className="text-base text-red-400 my-5">이번 문제는 만화 캐릭터 맞추기 문제입니다.</span>
-      <div className="max-w-screen-sm">
-        <table className="w-full text-center">
-          <thead>
-            <tr className="">
-              <th className="th">#</th>
-              <th className="th py-10">추측 단어</th>
-              <th className="th">유사도</th>
-            </tr>
-          </thead>
-          {lastGuess && (
-            <tbody>
-              <tr>
-                <td className="td font-semibold">{lastGuess.order}</td>
-                <td className="td font-semibold">{lastGuess.word}</td>
-                <td className="td font-semibold">{lastGuess.similarity}</td>
-              </tr>
-            </tbody>
-          )}
-          <tbody>
-            {guesses
-              .sort((a: IGuesses, b: IGuesses) => b.similarity - a.similarity)
-              .map((ele: IGuesses, i: number) => {
-                return (
-                  <tr key={ele.order} className={`${i === 0 ? 'border-t-[1px]' : null}`}>
-                    <td className="td  font-medium">{ele.order}</td>
-                    <td className="td  font-medium">{ele.word}</td>
-                    <td className="td  font-medium">{ele.similarity}</td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
-        <ChatWidget />
+      <div className="max-w-screen-sm overflow-auto h-4/6 hide-scrollbar">
+        <GuessesTables lastGuess={lastGuess} guesses={guesses} />
       </div>
     </div>
   );
