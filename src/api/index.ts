@@ -8,6 +8,7 @@ const client = axios.create({
   withCredentials: true,
 });
 
+client.defaults.timeout = 30000;
 client.interceptors.response.use(
   (res: AxiosResponse) => {
     return res.data;
