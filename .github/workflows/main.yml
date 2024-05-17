@@ -46,7 +46,7 @@ jobs:
 
       - name: npm build
         env:
-          PUBLIC_URL: /public
+          PUBLIC_URL: ${{ secrets.PUBLIC_URL }}
         run: npm run build
 
       # .env에 있던 환경변수들을 등록해주는 단계
