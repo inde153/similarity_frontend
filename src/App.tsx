@@ -41,7 +41,7 @@ function App() {
           }
         });
     }
-  }, []);
+  }, [loginStatus]);
 
   const routers = createBrowserRouter([
     {

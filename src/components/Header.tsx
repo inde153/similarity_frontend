@@ -9,7 +9,7 @@ export const Header: React.FC = () => {
     <header className="py-4">
       <div className="w-full px-5 xl:px-0 max-w-screen-lg mx-auto flex justify-between items-center">
         <Link to="/">
-          <img src={logo} className="w-40" />
+          <img src={logo} alt="Logo" className="w-40" />
         </Link>
         <span className="text-xs">
           <Link to="/profile/">
