@@ -46,6 +46,8 @@ jobs:
 
       - name: npm build
         run: npm run build
+        env:
+          GENERATE_SOURCEMAP: false
 
       # .env에 있던 환경변수들을 등록해주는 단계
       - name: .env setting
