@@ -2,7 +2,7 @@ import React from 'react';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faUser } from '@fortawesome/free-solid-svg-icons';
 // import { Link } from 'react-router-dom';
-// const logo = 'https://bucketsimilarity.s3.ap-northeast-2.amazonaws.com/Similarity-logo.png';
+// const logo = 'https://bucketsimilarity.s3.ap-northeast-2.amazonaws.com/images/Similarity-logo.png';
 
 export const Footer: React.FC = () => {
   return (
