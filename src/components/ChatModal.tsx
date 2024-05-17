@@ -3,7 +3,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { io } from 'socket.io-client';
 import { ChatMessage } from './ChatMessage';
-const logo = 'https://bucketsimilarity.s3.ap-northeast-2.amazonaws.com/Similarity-logo+(2).png';
+const logo = 'https://bucketsimilarity.s3.ap-northeast-2.amazonaws.com/Similarity-logo.png';
 
 interface IChatModal {
   visible: boolean;
