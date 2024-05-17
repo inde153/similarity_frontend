@@ -17,6 +17,12 @@ jobs:
       - name: git clone
         uses: actions/checkout@v3
 
+      #노드 버전 설정
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.17.1'
+
       # workflow가 실행될 때 필요한 파일 중에서 거의 바뀌지 않는 파일들을 GitHub의 캐시에 올려놓고 CI 서버로 내려받습니다.
       # 프로젝트에서 자주 바뀌지 않는 수많은 패키지를 매번 다운받아 올리면 시간도 오래걸리고 네트워크 대역폭을 많이 사용하게됩니다.
       - name: Get npm cache directory
@@ -30,6 +36,10 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
+      - name: Set CI to false
+        run: |
+          echo "CI=false" >> $GITHUB_ENV
 
       - name: npm install
         run: npm ci
@@ -52,7 +62,6 @@ jobs:
 
       - name: Upload to S3
         env:
-          BUCKET_NAME: bucketsimilarity
+          BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME}}
         run: |
-          aws s3 sync \
-            ./build s3://$BUCKET_NAME
+          aws s3 sync ./public s3://$BUCKET_NAME/public
