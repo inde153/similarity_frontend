@@ -45,6 +45,8 @@ jobs:
         run: npm ci
 
       - name: npm build
+        env:
+          PUBLIC_URL: /public
         run: npm run build
 
       # .env에 있던 환경변수들을 등록해주는 단계
