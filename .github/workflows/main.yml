@@ -37,6 +37,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - name: Set CI to false
+        run: |
+          echo "CI=false" >> $GITHUB_ENV
+
       - name: npm install
         run: npm ci
 
