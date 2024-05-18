@@ -18,7 +18,7 @@ client.interceptors.response.use(
       const status = err.response?.status;
 
       if (status === 403) {
-        const res = await client.get('auth/refresh');
+        const res = await client.get('v1/auth/refresh');
         console.log(res);
       }
     }
