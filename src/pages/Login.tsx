@@ -13,6 +13,8 @@ interface ILoginStatus {
 export const Login: React.FC<ILoginStatus> = ({ handleLoginStatus }) => {
   const CLIENT_ID = process.env.REACT_APP_SERVER_URI!;
 
+  console.log(CLIENT_ID);
+
   const loginByGoogle = () => {
     window.open(`${CLIENT_ID}${requestURL.googleLogin}`, '_self');
   };
