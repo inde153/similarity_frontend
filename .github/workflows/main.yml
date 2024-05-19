@@ -44,16 +44,17 @@ jobs:
       - name: npm install
         run: npm ci
 
-      - name: npm build
-        run: npm run build
-        env:
-          GENERATE_SOURCEMAP: false
-
+        
       # .env에 있던 환경변수들을 등록해주는 단계
       - name: .env setting
         run: |
           echo "REACT_APP_GOOGLE_ID=${{ secrets.REACT_APP_GOOGLE_ID }}" >> .env
           echo "REACT_APP_SERVER_URI=${{ secrets.REACT_APP_SERVER_URI }}" >> .env
+
+      - name: npm build
+        run: npm run build
+        env:
+          GENERATE_SOURCEMAP: false
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
