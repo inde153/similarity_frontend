@@ -3,7 +3,7 @@ import { response } from 'express';
 import { async } from 'q';
 
 const client = axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER_URI}/`,
+  baseURL: `${process.env.REACT_APP_SERVER_URI}`,
   headers: {},
   withCredentials: true,
 });
