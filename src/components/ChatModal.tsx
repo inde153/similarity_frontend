@@ -23,7 +23,7 @@ type inputObject = {
   message: string;
   email: string;
 };
-const socket = io(`${process.env.REACT_APP_SERVER_URI}/chat`, { forceNew: true, autoConnect: false });
+const socket = io(`${process.env.REACT_APP_SERVER_URI}chat`, { forceNew: true, autoConnect: false });
 
 export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
   const [messageInput, setMessageInput] = useState<string>('');
