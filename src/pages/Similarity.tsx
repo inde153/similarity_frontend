@@ -16,23 +16,28 @@ export const Similarity = () => {
   const [word, setWord] = useState<string>('');
   const [guesses, setGuesses] = useState<IGuesses[]>(JSON.parse(localStorage.getItem('guesses') || '[]'));
   const [lastGuess, SetLastGuess] = useState<IGuesses | null>(null);
+  const [isLodding, setIsLodding] = useState<boolean>(false);
 
   const onSubmit = () => {
-    client
-      .post<IGuesses>(requestURL.guess, { name: word, categoryId: 1 })
-      .then((res) => {
-        const isValid = guesses.some((ele: IGuesses) => {
-          return ele.word === word;
-        });
-        if (!isValid) {
-          const guessesItems = { order: guesses.length + 1, word, similarity: res.data.similarity };
-          SetLastGuess(guessesItems);
-          setGuesses([...guesses, guessesItems]);
-          localStorage.setItem('guesses', JSON.stringify([...guesses, guessesItems]));
-        }
-        setWord('');
-      })
-      .catch((e) => console.log(e));
+    if (!isLodding) {
+      setIsLodding(true);
+      client
+        .post<IGuesses>(requestURL.guess, { name: word, categoryId: 1 })
+        .then((res) => {
+          const isValid = guesses.some((ele: IGuesses) => {
+            return ele.word === word;
+          });
+          if (!isValid) {
+            const guessesItems = { order: guesses.length + 1, word, similarity: res.data.similarity };
+            SetLastGuess(guessesItems);
+            setGuesses([...guesses, guessesItems]);
+            localStorage.setItem('guesses', JSON.stringify([...guesses, guessesItems]));
+          }
+          setWord('');
+        })
+        .catch((e) => console.log(e));
+      setIsLodding(false);
+    }
   };
 
   const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -43,6 +48,7 @@ export const Similarity = () => {
 
   return (
     <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
+      <span className="py-10 whitespace-nowrap font-bold text-red-500">단어는 매일 00시에 변경됩니다.</span>
       <div className="mb-10 w-full max-w-screen-sm flex p-1 items-center bg-gray-100 ring-1 ring-gray-200">
         <ChatWidget />
         <input
@@ -57,6 +63,7 @@ export const Similarity = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} className="text-lg" />
         </button>
       </div>
+      {isLodding && <span className="text-sm text-red-500">단어의 유사도를 계산 중 입니다.</span>}
       <div className="max-w-screen-sm overflow-auto h-4/6 hide-scrollbar">
         <GuessesTables lastGuess={lastGuess} guesses={guesses} />
       </div>
