@@ -135,7 +135,7 @@ export const ChatModal: React.FC<IChatModal> = ({ visible }) => {
     <div
       className={`${
         !visible ? 'opacity-0' : 'opacity-100'
-      } flex flex-col fixed bottom-16 right-6 w-[400px] h-[50vh] rounded-md overflow-hidden ring-1 ring-gray-400 bg-white`}
+      } flex flex-col fixed bottom-16 right-6 w-96 h-[50vh] rounded-md overflow-hidden ring-1 ring-gray-400 bg-white`}
     >
       <div className="flex items-center p-2">
         <img src={logo} alt="Logo" className="w-24" />
