@@ -17,7 +17,7 @@ client.interceptors.response.use(
     if (axios.isAxiosError(err)) {
       const status = err.response?.status;
 
-      if (status === 403) {
+      if (status === 401) {
         const res = await client.get('v1/auth/refresh');
         console.log(res);
       }
