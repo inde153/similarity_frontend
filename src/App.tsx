@@ -19,6 +19,20 @@ const Layout = () => (
 
 function App() {
   const [loginStatus, setLoginStatus] = useState(Boolean(localStorage.getItem('u_info')));
+  const curDate = new Date();
+
+  const year = curDate.getFullYear();
+  const month = curDate.getMonth() + 1;
+  const day = curDate.getDate();
+
+  const date = `"${year}-${month}-${day}"`;
+
+  const lastDate: string | undefined = localStorage.getItem('lastDate') || undefined;
+
+  if (lastDate !== date) {
+    localStorage.setItem('lastDate', JSON.stringify(date));
+    localStorage.setItem('guesses', JSON.stringify([]));
+  }
 
   const handleLoginStatus = (type: boolean): void => {
     setLoginStatus(type);
