@@ -35,8 +35,10 @@ export const Similarity = () => {
           }
           setWord('');
         })
-        .catch((e) => console.log(e));
-      setIsLodding(false);
+        .catch((e) => console.log(e))
+        .finally(() => {
+          setIsLodding(false);
+        });
     }
   };
 
