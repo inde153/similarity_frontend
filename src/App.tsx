@@ -13,7 +13,9 @@ import { PrivateRoute } from './components/PrivateRoute';
 const Layout = () => (
   <>
     <Header />
-    <Outlet />
+    <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
+      <Outlet />
+    </div>
   </>
 );
 
@@ -78,11 +80,7 @@ function App() {
     },
   ]);
 
-  return (
-    <>
-      <RouterProvider router={routers} />
-    </>
-  );
+  return <RouterProvider router={routers} />;
 }
 
 export default App;

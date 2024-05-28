@@ -49,7 +49,7 @@ export const Similarity = () => {
   };
 
   return (
-    <div className="h-screen flex items-center flex-col mt-10 lg:mt-28">
+    <>
       <span className="py-10 whitespace-nowrap font-bold text-red-500">단어는 매일 00시에 변경됩니다.</span>
       <div className="mb-10 w-full max-w-screen-sm flex p-1 items-center bg-gray-100 ring-1 ring-gray-200">
         <ChatWidget />
@@ -69,6 +69,6 @@ export const Similarity = () => {
       <div className="max-w-screen-sm overflow-auto h-4/6 hide-scrollbar">
         <GuessesTables lastGuess={lastGuess} guesses={guesses} />
       </div>
-    </div>
+    </>
   );
 };
